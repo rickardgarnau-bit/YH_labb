@@ -1,0 +1,58 @@
+# Relationship Statements
+
+### Anläggning
+
+- En anläggning **har** många klasser
+- En anläggning identifieras av `skol_id`
+
+### Program
+- Ett program **har** många klasser (3 omgångar enligt krav)
+- Ett program **består av** många kurser (M:N relation via ProgramKurs)
+- Ett program identifieras av `program_namn`
+
+### Klass
+- En klass **tillhör** en anläggning
+- En klass **tillhör** ett program
+- En klass **har** en utbildningsledare som ansvarar för den
+- En klass **innehåller** många studenter
+- En klass **erbjuder** många kurstillfällen
+- En klass identifieras av `klass_id`
+
+### Utbildningsledare
+- En utbildningsledare **ansvarar för** flera klasser (enligt krav: 3 klasser)
+- En utbildningsledare identifieras av `ul_id`
+
+### Student
+- En student **tillhör** en klass
+- En student identifieras av `student_id`
+
+### Kurs
+- En kurs **ingår i** många program (M:N relation via ProgramKurs)
+- En kurs **ges som** många kurstillfällen
+- En kurs kan vara fristående (attribut `är_fristående`)
+- En kurs identifieras av `kurskod`
+
+### Kurstillfälle
+- Ett kurstillfälle **är av** en specifik kurs
+- Ett kurstillfälle **tillhör** en klass
+- Ett kurstillfälle **undervisas av** många utbildare (M:N relation via UtbildarKurstillfälle)
+- Ett kurstillfälle identifieras av `kurstillfälle_id`
+
+### Utbildare
+- En utbildare **kan vara** en konsult (optional 1:1)
+- En utbildare **kan vara** en fast anställd (optional 1:1)
+- En utbildare **undervisar** många kurstillfällen (M:N relation via UtbildarKurstillfälle)
+- En utbildare identifieras av `utbildare_id`
+
+### Konsult
+- En konsult **är en** utbildare (ISA-relation)
+- En konsult **tillhör** ett konsultbolag
+- En konsult identifieras av `utbildare_id`
+
+### FastAnställd
+- En fast anställd **är en** utbildare (ISA-relation)
+- En fast anställd identifieras av `utbildare_id`
+
+### KonsultBolag
+- Ett konsultbolag **anställer** många konsulter
+- Ett konsultbolag identifieras av `bolag_id`
