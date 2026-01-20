@@ -1,0 +1,4 @@
+- Jag valde att bryta ut postnummer och ort till en egen tabell för att uppfylla Tredje Normalformen (3NF).
+- Om jag hade haft kvar 'Ort' inne i student-tabellen hade jag haft ett så kallat transitivt beroende. Det betyder att kolumnen 'Ort' egentligen inte beror på studenten, utan den beror på postnumret.
+- Genom att flytta ut detta undviker jag dubbellagring av data (redundans) och minskar risken för fel om en ort skulle byta namn.
+- Använde LLM för att kontrollera att koden stämmer och att översättningarna från svenska till engelska blir mer korrekt
