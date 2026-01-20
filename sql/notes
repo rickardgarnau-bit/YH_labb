@@ -1,4 +1,17 @@
+# Utmaningar och Lösningar
+
 - Jag valde att bryta ut postnummer och ort till en egen tabell för att uppfylla Tredje Normalformen (3NF).
 - Om jag hade haft kvar 'Ort' inne i student-tabellen hade jag haft ett så kallat transitivt beroende. Det betyder att kolumnen 'Ort' egentligen inte beror på studenten, utan den beror på postnumret.
 - Genom att flytta ut detta undviker jag dubbellagring av data (redundans) och minskar risken för fel om en ort skulle byta namn.
-- Använde LLM för att kontrollera att koden stämmer och att översättningarna från svenska till engelska blir mer korrekt
+- Använde AI-verktyg för Code Review och syntax-kontroll, samt för att säkerställa att namngivningen på engelska var konsekvent genom hela databasen.
+
+#### Datatyper måste matcha i relationer (Foreign Keys)
+- I början hade jag VARCHAR (text) i vissa ID-kolumner i diagrammet, men INTEGER (siffror) i koden.
+- Jag lärde mig vikten av att datatyperna för en Foreign Key måste vara exakt samma som Primary Key den pekar på. En textsträng kan inte peka på en siffra. Jag standardiserade därför alla ID:n till INTEGER.
+
+#### Exekveringsordning vid INSERT
+- När jag skulle lägga in data var jag tvungen att tänka på ordningen (skapa Postnummer -> Skola -> Program -> Kurs osv).
+- Jag insåg att man inte kan lägga in data i vilken ordning som helst. Eftersom databasen har Foreign Key Constraints måste föräldra-datan (ex. Postnummer) existera innan jag kan skapa en rad som är beroende av den (ex. Skola).
+
+#### SQL-syntax
+- Jag fick öva mycket på felsökning av syntax. En liten detalj som ett saknat kommatecken eller en extra parentes gör att hela scriptet stannar. Det har gjort mig noggrannare med koden.
