@@ -2,10 +2,13 @@
 INSERT INTO
     postal_address (postal_code, city)
 VALUES
-    ('41755', 'Göteborg'),
-    ('11763', 'Stockholm'),
+    ('111 22', 'Stockholm'),
+    ('411 01', 'Göteborg'),
+    ('211 15', 'Malmö'),
+    ('981 30', 'Kiruna'),
     ('41101', 'Göteborg'),
     ('43131', 'Mölndal'),
+    ('41755', 'Hisingen'),
     ('11101', 'Stockholm'),
     ('12345', 'Farsta');
 
@@ -13,8 +16,8 @@ VALUES
 INSERT INTO
     school (address, postal_code)
 VALUES
-    ('Lindholmen 1', '41755'),
-    ('Liljeholmsgränd 7', '11763');
+    ('Sveavägen 45', '111 22'),
+    ('Avenyn 10', '411 01');
 
 -- PROGRAM
 INSERT INTO
@@ -25,29 +28,35 @@ VALUES
 
 -- KURSER
 INSERT INTO
-    course (course_name, is_standalone, description)
+    course (
+        course_name,
+        yh_credits,
+        is_standalone,
+        description
+    )
 VALUES
-    ('Programming', FALSE, 'Python'),
-    ('Cloud Computing', FALSE, 'Azure');
+    ('Programming', 50, FALSE, 'Python'),
+    ('Cloud Computing', 30, FALSE, 'Azure');
 
 -- UTBILDNINGSLEDARE
 INSERT INTO
     education_leader (first_name, last_name, school_id)
 VALUES
-    ('Bosse', 'Andersson', 1),
-    ('Bojan', 'Djordjic', 2);
+    ('Anna', 'Andersson', 1),
+    ('Erik', 'Eriksson', 2);
 
 -- LÄRARE
 INSERT INTO
     teacher (first_name, last_name, school_id)
 VALUES
-    ('Bruno', 'Mars', 1),
-    ('George', 'Foreman', 1),
-    ('Marko', 'Lehtosalo', 2);
+    ('Lars', 'Larsson', 1),
+    ('Karin', 'Karlsson', 1),
+    ('Per', 'Persson', 2);
 
 -- KLASSER
 INSERT INTO
     class (
+        class_name,
         school_id,
         education_leader_id,
         program_id,
@@ -55,22 +64,42 @@ INSERT INTO
         end_date
     )
 VALUES
-    (1, 1, 1, '2023-08-20', '2025-06-05'),
-    (1, 1, 2, '2023-08-20', '2025-06-05'),
-    (2, 2, 1, '2023-09-01', '2025-06-10');
+    ('DE23', 1, 1, 1, '2023-08-20', '2025-06-05'),
+    ('DE24', 1, 2, 1, '2024-08-19', '2026-06-04'),
+    ('DO24', 1, 1, 2, '2024-08-25', '2026-05-30');
+
+-- FRISTÅENDE KURS
+INSERT INTO
+    class (
+        class_name,
+        school_id,
+        education_leader_id,
+        program_id,
+        starting_date,
+        end_date
+    )
+VALUES
+    (
+        'Python Grundkurs',
+        1,
+        1,
+        NULL,
+        '2024-09-02',
+        '2024-11-01'
+    );
 
 -- STUDENTER
 INSERT INTO
-    student (class_id)
+    student (first_name, last_name, class_id)
 VALUES
-    (1),
-    (1),
-    (1), -- Tre studenter i klass 1
-    (2),
-    (2);
+    ('Erik', 'Segersäll', 1),
+    ('Anna', 'Andersson', 1),
+    ('Olof', 'Palme', 1),
+    ('Astrid', 'Lindgren', 2),
+    ('Evert', 'Taube', 3),
+    ('Linus', 'Torvalds', 3);
 
--- Två studenter i klass 2
--- Dessa får nu ID 1, 2, 3, 4, 5 automatiskt av SERIAL
+-- STUDENTUPPGIFTER
 INSERT INTO
     student_info (student_id, social_sec_nr, address, postal_code)
 VALUES
@@ -87,44 +116,121 @@ INSERT INTO
         teacher_id,
         email,
         salary,
-        is_consultant
+        is_consultant,
+        address,
+        postal_code
     )
 VALUES
     (
         1,
         NULL,
-        'bosse.andersson@yrkesco.se',
+        'anna.andersson@yrkesco.se',
         45000,
-        FALSE
-    ),
+        FALSE,
+        'Villagatan 1',
+        '111 22'
+    );
+
+INSERT INTO
+    employee_info (
+        education_leader_id,
+        teacher_id,
+        email,
+        salary,
+        is_consultant,
+        address,
+        postal_code
+    )
+VALUES
     (
         2,
         NULL,
-        'bojan.djordjic@yrkesco.se',
-        46000,
-        FALSE
-    ),
-    (NULL, 1, 'bruno.mars@yrkesco.se', 38000, FALSE),
-    (NULL, 2, 'george.foreman@techkonsult.se', 0, TRUE), -- Konsult!
+        'erik.eriksson@yrkesco.se',
+        47000,
+        FALSE,
+        'Havsgatan 3',
+        '411 01'
+    );
+
+INSERT INTO
+    employee_info (
+        education_leader_id,
+        teacher_id,
+        email,
+        salary,
+        is_consultant,
+        address,
+        postal_code
+    )
+VALUES
     (
         NULL,
-        3,
-        'marko.lehtosalo@yrkesco.se',
-        39000,
-        FALSE
+        1,
+        'lars.larsson@yrkesco.se',
+        38000,
+        FALSE,
+        'Lägenhetsvägen 4B',
+        '111 22'
+    );
+
+INSERT INTO
+    employee_info (
+        education_leader_id,
+        teacher_id,
+        email,
+        salary,
+        is_consultant,
+        address,
+        postal_code
+    )
+VALUES
+    (
+        NULL,
+        2,
+        'karin.k@konsultbolaget.se',
+        0,
+        TRUE,
+        'Södra Vägen 99',
+        '211 15' -- Konsult som bor i Malmö men pendlar till Stockholm
     );
 
 -- KONSULTBYRÅ
 INSERT INTO
-    consultant_agency (name, org_nr, has_f_tax_card)
+    consultant_agency (
+        name,
+        org_nr,
+        has_f_tax_card,
+        address,
+        postal_code
+    )
 VALUES
-    ('TechUtbildarna AB', '556677-8899', TRUE);
+    (
+        'IT-Resurs AB',
+        '556123-4567',
+        TRUE,
+        'Konsultgatan 1',
+        '111 22'
+    ),
+    (
+        'Webbproffsen HB',
+        '969798-1122',
+        TRUE,
+        'Teknikgränd 5',
+        '211 15'
+    ),
+    (
+        'Norrlandskod AB',
+        '556999-8888',
+        TRUE,
+        'Gruvvägen 12',
+        '981 30'
+    );
 
--- KONSULT (George Foreman är lärare ID 2)
+-- KONSULT
 INSERT INTO
     consultant (teacher_id, agency_id, hourly_rate)
 VALUES
-    (2, 1, 1250);
+    (2, 1, 1200);
 
 -- PROGRAMINNEHÅLL
 INSERT INTO
@@ -139,3 +245,28 @@ INSERT INTO
 VALUES
     (1, 1, 'HT23', '2023-09-01', '2023-10-30'),
     (2, 1, 'HT23', '2023-11-01', '2023-12-20');
+
+-- KOPPLING LÄRARE & KURSTILLFÄLLE
+INSERT INTO
+    teacher_course_rel (teacher_id, instance_id)
+VALUES
+    (1, 1),
+    (2, 2);
+
+-- NÄRVARO (ATTENDANCE)
+INSERT INTO
+    attendance (student_id, instance_id, date, status)
+VALUES
+    (1, 1, '2023-09-02', 'Närvarande'),
+    (1, 1, '2023-09-03', 'Närvarande'),
+    (1, 1, '2023-09-04', 'Frånvarande'),
+    (2, 1, '2023-09-02', 'Närvarande'),
+    (2, 1, '2023-09-03', 'Närvarande');
+
+-- BETYG (COURSE_GRADE)
+INSERT INTO
+    course_grade (student_id, instance_id, grade, date, points)
+VALUES
+    (1, 1, 'VG', '2023-10-30', 48),
+    (2, 1, 'G', '2023-10-30', 32),
+    (3, 1, 'IG', '2023-10-30', 15);

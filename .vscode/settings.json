@@ -7,8 +7,9 @@
             "port": 5433,
             "driver": "PostgreSQL",
             "name": "YrkesCo",
+            "database": "yrkco_db",
             "username": "postgres",
-            "database": "yrkesco"
+            "password": "wordpass"
         }
     ]
 }
