@@ -1,3 +1,4 @@
+-- Lista över alla elever
 SELECT
     s.first_name || ' ' || s.last_name AS Student,
     c.class_name AS Klass,

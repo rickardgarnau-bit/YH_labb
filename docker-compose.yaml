@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16  # <--- ÄNDRA HÄR (Var 'latest' förut)
+    image: postgres:16
     container_name: yrkesco-db
     restart: always
     environment:
