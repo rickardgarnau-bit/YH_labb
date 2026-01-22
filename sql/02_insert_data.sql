@@ -10,7 +10,8 @@ VALUES
     ('43131', 'Mölndal'),
     ('41755', 'Hisingen'),
     ('11101', 'Stockholm'),
-    ('12345', 'Farsta');
+    ('12345', 'Farsta'),
+    ('90120', 'Umeå');
 
 -- SKOLOR
 INSERT INTO
@@ -101,13 +102,56 @@ VALUES
 
 -- STUDENTUPPGIFTER
 INSERT INTO
-    student_info (student_id, social_sec_nr, address, postal_code)
+    student_info (
+        student_id,
+        social_sec_nr,
+        address,
+        postal_code,
+        email
+    )
 VALUES
-    (1, '19900101-0001', 'Storgatan 1', '41101'),
-    (2, '19920202-0002', 'Lillgatan 2', '43131'),
-    (3, '19950505-0003', 'Hemvägen 10', '41755'),
-    (4, '19980808-0004', 'Testgränd 4', '11101'),
-    (5, '20000101-0006', 'Fjärranvägen 99', '12345');
+    (
+        1,
+        '19900101-0001',
+        'Storgatan 1',
+        '41101',
+        'erik.segersall@student.yrkesco.se'
+    ),
+    (
+        2,
+        '19920202-0002',
+        'Lillgatan 2',
+        '43131',
+        'anna.andersson@student.yrkesco.se'
+    ),
+    (
+        3,
+        '19950505-0003',
+        'Hemvägen 10',
+        '41755',
+        'olof.palme@student.yrkesco.se'
+    ),
+    (
+        4,
+        '19980808-0004',
+        'Testgränd 4',
+        '11101',
+        'astrid.lindgren@student.yrkesco.se'
+    ),
+    (
+        5,
+        '20000101-0006',
+        'Fjärranvägen 99',
+        '12345',
+        'evert.taube@student.yrkesco.se'
+    ),
+    (
+        6,
+        '20011228-0007',
+        'Kernelvägen 1',
+        '90120',
+        'linus.torvalds@student.yrkesco.se'
+    );
 
 -- ANSTÄLLD INFO
 INSERT INTO
@@ -118,7 +162,8 @@ INSERT INTO
         salary,
         is_consultant,
         address,
-        postal_code
+        postal_code,
+        phone_nr
     )
 VALUES
     (
@@ -128,7 +173,8 @@ VALUES
         45000,
         FALSE,
         'Villagatan 1',
-        '111 22'
+        '111 22',
+        '070-123 45 67'
     );
 
 INSERT INTO
@@ -149,7 +195,8 @@ VALUES
         47000,
         FALSE,
         'Havsgatan 3',
-        '411 01'
+        '411 01',
+        '072-987 65 43'
     );
 
 INSERT INTO
@@ -170,7 +217,8 @@ VALUES
         38000,
         FALSE,
         'Lägenhetsvägen 4B',
-        '111 22'
+        '111 22',
+        '073-555 11 22'
     );
 
 INSERT INTO
@@ -191,7 +239,9 @@ VALUES
         0,
         TRUE,
         'Södra Vägen 99',
-        '211 15' -- Konsult som bor i Malmö men pendlar till Stockholm
+        '211 15',
+        -- Konsult som bor i Malmö men pendlar till Stockholm
+        '076-333 44 55'
     );
 
 -- KONSULTBYRÅ
@@ -201,7 +251,9 @@ INSERT INTO
         org_nr,
         has_f_tax_card,
         address,
-        postal_code
+        postal_code,
+        phone_nr,
+        email
     )
 VALUES
     (
@@ -209,21 +261,27 @@ VALUES
         '556123-4567',
         TRUE,
         'Konsultgatan 1',
-        '111 22'
+        '111 22',
+        '070-888 77 66',
+        'info@itresurs.se'
     ),
     (
         'Webbproffsen HB',
         '969798-1122',
         TRUE,
         'Teknikgränd 5',
-        '211 15'
+        '211 15',
+        '079-111 22 33',
+        'kontakt@webbproffsen.se'
     ),
     (
         'Norrlandskod AB',
         '556999-8888',
         TRUE,
         'Gruvvägen 12',
-        '981 30'
+        '981 30',
+        '0980-123 45',
+        'hello@norrlandskod.se'
     );
 
 -- KONSULT
@@ -241,7 +299,13 @@ VALUES
 
 -- KURSTILLFÄLLEN
 INSERT INTO
-    course_instance (course_code, class_id, term, start_date, end_date)
+    course_instance (
+        course_code,
+        class_id,
+        term,
+        start_date,
+        end_date
+    )
 VALUES
     (1, 1, 'HT23', '2023-09-01', '2023-10-30'),
     (2, 1, 'HT23', '2023-11-01', '2023-12-20');
@@ -270,3 +334,90 @@ VALUES
     (1, 1, 'VG', '2023-10-30', 48),
     (2, 1, 'G', '2023-10-30', 32),
     (3, 1, 'IG', '2023-10-30', 15);
+
+-- LIA FÖRETAG
+INSERT INTO
+    company (company_name, industry, city, contact_email)
+VALUES
+    (
+        'Volvo Cars',
+        'Fordon',
+        'Göteborg',
+        'student@volvocars.com'
+    ),
+    (
+        'Spotify',
+        'Musikstreaming',
+        'Stockholm',
+        'hr@spotify.com'
+    ),
+    (
+        'Skatteverket IT',
+        'Myndighet',
+        'Sundbyberg',
+        'rekrytering@skatteverket.se'
+    ),
+    (
+        'Ericsson',
+        'Telekom',
+        'Kista',
+        'future@ericsson.com'
+    ),
+    (
+        'IKEA Digital',
+        'Retail',
+        'Malmö',
+        'work@ikea.com'
+    );
+
+-- LIA
+INSERT INTO
+    lia_placement (
+        student_id,
+        company_id,
+        start_date,
+        end_date,
+        supervisor_name,
+        supervisor_phone
+    )
+VALUES
+    (
+        1,
+        1,
+        '2024-01-15',
+        '2024-03-22',
+        'Leif Öhman',
+        '031-123 45 67'
+    ),
+    (
+        2,
+        2,
+        '2024-01-15',
+        '2024-03-22',
+        'Daniel Ekman',
+        '08-555 666 77'
+    ),
+    (
+        3,
+        3,
+        '2024-01-15',
+        '2024-03-22',
+        'Maria Kjellander',
+        '010-112 23 34'
+    ),
+    (
+        4,
+        4,
+        '2024-01-15',
+        '2024-03-22',
+        'Bengt Karlsson',
+        '070-999 88 77'
+    ),
+    (
+        5,
+        5,
+        '2024-01-15',
+        '2024-03-22',
+        'Kamprad Jr',
+        '040-123 12 12'
+    );

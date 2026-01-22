@@ -2,13 +2,11 @@
 SELECT
     s.first_name || ' ' || s.last_name AS Student,
     c.class_name AS Klass,
-    p.program_name AS Program
+    COALESCE(p.program_name, 'Fristående Kurs') AS Program
 FROM
     student s
     JOIN class c ON s.class_id = c.class_id
-    JOIN program p ON c.program_id = p.program_id
-ORDER BY
-    c.class_name;
+    LEFT JOIN program p ON c.program_id = p.program_id;
 
 -- Vem tjänar mest?
 SELECT
@@ -66,3 +64,19 @@ GROUP BY
     s.student_id,
     s.first_name,
     s.last_name;
+
+-- Vem gör LIA var?
+SELECT
+    s.first_name AS "Förnamn",
+    s.last_name AS "Efternamn",
+    c.company_name AS "Företag",
+    c.city AS "Ort",
+    l.supervisor_name AS "Handledare",
+    l.start_date AS "Startdatum",
+    l.end_date AS "Slutdatum"
+FROM
+    student s
+    JOIN lia_placement l ON s.student_id = l.student_id
+    JOIN company c ON l.company_id = c.company_id
+ORDER BY
+    c.company_name;
