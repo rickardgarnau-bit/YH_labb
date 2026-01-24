@@ -13,13 +13,29 @@ VALUES
     ('12345', 'Farsta'),
     ('90120', 'Umeå');
 
+-- ('852 30', 'Sundsvall');
 -- SKOLOR
 INSERT INTO
-    school (address, postal_code)
+    school (address, postal_code, email, phone_nr)
 VALUES
-    ('Sveavägen 45', '111 22'),
-    ('Avenyn 10', '411 01');
+    (
+        'Sveavägen 45',
+        '111 22',
+        'stockholm@yrkesco.se',
+        '08-998877'
+    ) (
+        'Avenyn 10',
+        '411 01',
+        ' goteborg@yrkesco.se',
+        '031-112233'
+    );
 
+/* (
+'Storgatan 10',
+'852 30',
+'sundsvall@yrkesco.se',
+'060-123456'
+); */
 -- PROGRAM
 INSERT INTO
     program (program_name)
@@ -299,13 +315,7 @@ VALUES
 
 -- KURSTILLFÄLLEN
 INSERT INTO
-    course_instance (
-        course_code,
-        class_id,
-        term,
-        start_date,
-        end_date
-    )
+    course_instance (course_code, class_id, term, start_date, end_date)
 VALUES
     (1, 1, 'HT23', '2023-09-01', '2023-10-30'),
     (2, 1, 'HT23', '2023-11-01', '2023-12-20');
