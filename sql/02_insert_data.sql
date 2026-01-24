@@ -6,14 +6,15 @@ VALUES
     ('411 01', 'Göteborg'),
     ('211 15', 'Malmö'),
     ('981 30', 'Kiruna'),
-    ('41101', 'Göteborg'),
-    ('43131', 'Mölndal'),
-    ('41755', 'Hisingen'),
-    ('11101', 'Stockholm'),
-    ('12345', 'Farsta'),
-    ('90120', 'Umeå');
+    ('431 31', 'Mölndal'),
+    ('417 55', 'Hisingen'),
+    ('111 01', 'Stockholm'),
+    ('123 45', 'Farsta'),
+    ('901 20', 'Umeå'),
+    ('172 69', 'Sundbyberg'), -- Tillagd för Skatteverket
+    ('164 40', 'Kista');
 
--- ('852 30', 'Sundsvall');
+-- Tillagd för Ericsson
 -- SKOLOR
 INSERT INTO
     school (address, postal_code, email, phone_nr)
@@ -23,19 +24,14 @@ VALUES
         '111 22',
         'stockholm@yrkesco.se',
         '08-998877'
-    ) (
+    ),
+    (
         'Avenyn 10',
         '411 01',
-        ' goteborg@yrkesco.se',
+        'goteborg@yrkesco.se',
         '031-112233'
     );
 
-/* (
-'Storgatan 10',
-'852 30',
-'sundsvall@yrkesco.se',
-'060-123456'
-); */
 -- PROGRAM
 INSERT INTO
     program (program_name)
@@ -83,19 +79,7 @@ INSERT INTO
 VALUES
     ('DE23', 1, 1, 1, '2023-08-20', '2025-06-05'),
     ('DE24', 1, 2, 1, '2024-08-19', '2026-06-04'),
-    ('DO24', 1, 1, 2, '2024-08-25', '2026-05-30');
-
--- FRISTÅENDE KURS
-INSERT INTO
-    class (
-        class_name,
-        school_id,
-        education_leader_id,
-        program_id,
-        starting_date,
-        end_date
-    )
-VALUES
+    ('DO24', 1, 1, 2, '2024-08-25', '2026-05-30'),
     (
         'Python Grundkurs',
         1,
@@ -130,42 +114,42 @@ VALUES
         1,
         '19900101-0001',
         'Storgatan 1',
-        '41101',
+        '411 01',
         'erik.segersall@student.yrkesco.se'
     ),
     (
         2,
         '19920202-0002',
         'Lillgatan 2',
-        '43131',
+        '431 31',
         'anna.andersson@student.yrkesco.se'
     ),
     (
         3,
         '19950505-0003',
         'Hemvägen 10',
-        '41755',
+        '417 55',
         'olof.palme@student.yrkesco.se'
     ),
     (
         4,
         '19980808-0004',
         'Testgränd 4',
-        '11101',
+        '111 01',
         'astrid.lindgren@student.yrkesco.se'
     ),
     (
         5,
         '20000101-0006',
         'Fjärranvägen 99',
-        '12345',
+        '123 45',
         'evert.taube@student.yrkesco.se'
     ),
     (
         6,
         '20011228-0007',
         'Kernelvägen 1',
-        '90120',
+        '901 20',
         'linus.torvalds@student.yrkesco.se'
     );
 
@@ -191,19 +175,7 @@ VALUES
         'Villagatan 1',
         '111 22',
         '070-123 45 67'
-    );
-
-INSERT INTO
-    employee_info (
-        education_leader_id,
-        teacher_id,
-        email,
-        salary,
-        is_consultant,
-        address,
-        postal_code
-    )
-VALUES
+    ),
     (
         2,
         NULL,
@@ -213,19 +185,7 @@ VALUES
         'Havsgatan 3',
         '411 01',
         '072-987 65 43'
-    );
-
-INSERT INTO
-    employee_info (
-        education_leader_id,
-        teacher_id,
-        email,
-        salary,
-        is_consultant,
-        address,
-        postal_code
-    )
-VALUES
+    ),
     (
         NULL,
         1,
@@ -235,19 +195,7 @@ VALUES
         'Lägenhetsvägen 4B',
         '111 22',
         '073-555 11 22'
-    );
-
-INSERT INTO
-    employee_info (
-        education_leader_id,
-        teacher_id,
-        email,
-        salary,
-        is_consultant,
-        address,
-        postal_code
-    )
-VALUES
+    ),
     (
         NULL,
         2,
@@ -256,7 +204,6 @@ VALUES
         TRUE,
         'Södra Vägen 99',
         '211 15',
-        -- Konsult som bor i Malmö men pendlar till Stockholm
         '076-333 44 55'
     );
 
@@ -327,7 +274,7 @@ VALUES
     (1, 1),
     (2, 2);
 
--- NÄRVARO (ATTENDANCE)
+-- NÄRVARO
 INSERT INTO
     attendance (student_id, instance_id, date, status)
 VALUES
@@ -337,7 +284,7 @@ VALUES
     (2, 1, '2023-09-02', 'Närvarande'),
     (2, 1, '2023-09-03', 'Närvarande');
 
--- BETYG (COURSE_GRADE)
+-- BETYG
 INSERT INTO
     course_grade (student_id, instance_id, grade, date, points)
 VALUES
@@ -345,42 +292,42 @@ VALUES
     (2, 1, 'G', '2023-10-30', 32),
     (3, 1, 'IG', '2023-10-30', 15);
 
--- LIA FÖRETAG
+-- LIA FÖRETAG (Nu med korrekt 3NF koppling till postal_address)
 INSERT INTO
-    company (company_name, industry, city, contact_email)
+    company (company_name, industry, postal_code, email)
 VALUES
     (
         'Volvo Cars',
         'Fordon',
-        'Göteborg',
+        '411 01',
         'student@volvocars.com'
     ),
     (
         'Spotify',
         'Musikstreaming',
-        'Stockholm',
+        '111 22',
         'hr@spotify.com'
     ),
     (
         'Skatteverket IT',
         'Myndighet',
-        'Sundbyberg',
+        '172 69',
         'rekrytering@skatteverket.se'
     ),
     (
         'Ericsson',
         'Telekom',
-        'Kista',
+        '164 40',
         'future@ericsson.com'
     ),
     (
         'IKEA Digital',
         'Retail',
-        'Malmö',
+        '211 15',
         'work@ikea.com'
     );
 
--- LIA
+-- LIA PLACERINGAR
 INSERT INTO
     lia_placement (
         student_id,
