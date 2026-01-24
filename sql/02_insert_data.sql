@@ -11,10 +11,9 @@ VALUES
     ('111 01', 'Stockholm'),
     ('123 45', 'Farsta'),
     ('901 20', 'Umeå'),
-    ('172 69', 'Sundbyberg'), -- Tillagd för Skatteverket
+    ('172 69', 'Sundbyberg'),
     ('164 40', 'Kista');
 
--- Tillagd för Ericsson
 -- SKOLOR
 INSERT INTO
     school (address, postal_code, email, phone_nr)
