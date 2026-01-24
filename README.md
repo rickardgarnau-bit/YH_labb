@@ -1,81 +1,66 @@
-# YrkesCo Databasdesign
+# Databasdesign för YrkesCo
 
-## Projektbeskrivning
-Detta projekt innehåller databasdesignen för YrkesCo, en fiktiv yrkeshögskola som vill ersätta sina Excel-filer med en centraliserad databas.
+**Kurs:** Databasdesign och Modellering  
+**Student:** Rickard Garnau
+**Datum:** 2026-01-24
 
-## Konceptuell modell
+---
 
-![Konceptuell modell](./images/KonceptuellModel.png)
+## Om Uppgiften
+Målet med denna uppgift var att designa och implementera en ny databasstruktur för utbildningsföretaget **YrkesCo**. Projektet syftade till att ersätta manuell datahantering i Excel med en centraliserad, skalbar och säker relationsdatabas (PostgreSQL).
 
-### Färgkodning
-- 🟦 **Blå**: Personer och roller (Student, Utbildare, Utbildningsledare, Konsult, FastAnställd)
-- 🟨 **Gul**: Organisatoriska enheter (Anläggning, Klass, KonsultBolag)
-- 🟩 **Grön**: Utbildningsrelaterade entiteter (Program, Kurs, Kurstillfälle)
+Lösningen hanterar skolor, klasser, utbildare (både anställda och konsulter), studenter samt LIA-placeringar enligt **3NF** (Tredje Normalformen).
 
-# Relationship Statements
+## Videopresentation
+Min redovisning och demo av databasen finns uppladdad (olistad) på YouTube:
+🔗 **https://youtu.be/DFx1197EG2k**
 
-### Postadress
-- En postadress **används av** många skolor och många personer (via `student_info`).
-- En postadress **identifieras av** `postal_code` (Postnummer).
-- **Syfte:** Uppfyller 3NF för att undvika redundans av ortnamn.
+> **Notering:** I videon fokuserar jag på affärsnyttan och logiken. För detaljerade specifikationer kring relationer, se avsnittet "Affärsregler" i den bifogade PDF:en.
 
-### Skola
-- En skola **har** många klasser.
-- En skola **anställer** många lärare och utbildningsledare.
-- En skola **ligger på** en adress (kopplad via `postal_code`).
-- En skola **identifieras av** `school_id`.
+---
 
-### Program
-- Ett program **har** många klasser (3 omgångar enligt krav).
-- Ett program **består av** många kurser (M:N relation via `program_content`).
-- Ett program **identifieras av** `program_id`.
+## Användning av AI (AI-deklaration)
+I arbetet med denna inlämningsuppgift har jag använt AI-verktyg (främst Gemini) som stöd i utvecklingsprocessen. Jag har använt AI på följande sätt:
 
-### Klass
-- En klass **tillhör** en skola.
-- En klass **tillhör** ett program.
-- En klass **leds av** en utbildningsledare som ansvarar för den.
-- En klass **innehåller** många studenter.
-- En klass **erbjuder** många kurstillfällen (`course_instance`).
-- En klass **identifieras av** `class_id`.
+1.  **Generering av testdata:** För att befolka databasen med realistisk data (mock data) har jag använt AI för att generera listor på namn, adresser, telefonnummer och e-postadresser.
+2.  **Bollplank för struktur:** Jag har använt AI för att diskutera hur man bäst presenterar den konceptuella modellen och för att strukturera manuset till videopresentationen.
+3.  **Syntax-stöd:** Hjälp med specifika PostgreSQL-kommandon, t.ex. regex-validering (`CONSTRAINT` med `~`) och funktioner som `COALESCE`.
 
-### Utbildningsledare
-- En utbildningsledare **ansvarar för** flera klasser.
-- En utbildningsledare **tillhör** en skola.
-- En utbildningsledare **har** detaljerad anställningsinfo i `employee_info`.
-- En utbildningsledare **identifieras av** `leader_id`.
+*All övrig kod, logik, databasmodellering (ER-diagram) och designval är mina egna.*
 
-### Lärare
-- En lärare **tillhör** en skola.
-- En lärare **undervisar** vid många kurstillfällen (M:N relation via `teacher_course_rel`).
-- En lärare **kan vara** en konsult (koppling till `consultant`).
-- En lärare **har** kontaktuppgifter och lön i `employee_info` (om ej konsult).
-- En lärare **identifieras av** `teacher_id`.
+---
 
-### Student & Student Info
-- En student **tillhör** en klass.
-- En student **har** känsliga personuppgifter lagrade separat i `student_info` (1:1 relation).
-- En student **får** betyg i kurser (`course_grade`).
-- En student **har** närvaro registrerad i `attendance`.
-- En student **identifieras av** `student_id`.
+## Samarbete och Metod
+För att säkerställa en robust design har jag diskuterat kravspecifikationen och databasens omfattning med kurskamrater.
 
-### Kurs
-- En kurs **ingår i** många program.
-- En kurs **ges som** många kurstillfällen.
-- En kurs **identifieras av** `course_code`.
+* **Kravanalys:** Vi har gemensamt diskuterat tolkningar av uppgiften och brainstormat kring vilken extra funktionalitet (utöver grundkraven) som skulle ge mest affärsnytta, till exempel hanteringen av LIA-praktiken.
+* **Egna val:** Utifrån dessa diskussioner har jag sedan självständigt utformat min unika lösning, mina modeller och min kod.
 
-### Kurstillfälle
-- Ett kurstillfälle **är en instans av** en specifik kurs.
-- Ett kurstillfälle **tillhör** en klass.
-- Ett kurstillfälle **undervisas av** en eller flera lärare.
-- Ett kurstillfälle **identifieras av** `instance_id`.
+---
 
-### Konsult & Konsultbolag
-- Ett konsultbolag **hyr ut** konsulter.
-- En konsult **är kopplad till** en lärare (`teacher_id`).
-- En konsult **identifieras av** `teacher_id` (Foreign Key som också är Primary Key).
+## Källor
+Följande resurser har använts för att lösa uppgiften och säkerställa korrekt syntax och design:
 
-### Anställd Info
-- Tabellen **samlar** lön, email och anställningsstatus.
-- Den **tillhör** antingen en utbildningsledare eller en lärare.
-- Den **identifieras av** `info_id`.
+* **Dokumentation:** PostgreSQL Official Documentation (https://www.postgresql.org/docs/) - för syntax kring `SERIAL`, `Date` och `Constraints`.
 
+---
+
+## Teknisk Lösning & Designval
+
+### Nyckelfunktioner
+* **Skalbarhet:** Adresser är utbrutna till tabellen `postal_address` (3NF) för att undvika redundans.
+* **Säkerhet (GDPR):** Känsliga uppgifter som personnummer och lön ligger i separata tabeller (`student_info`, `employee_info`) för att möjliggöra striktare åtkomstkontroll.
+* **Flexibilitet:** Modellen använder en struktur som liknar "arv" för att hantera att en utbildare kan vara antingen fast anställd eller konsult.
+* **Datakvalitet:** `CHECK`-constraints säkerställer att e-post och telefonnummer följer korrekt format.
+
+### Filstruktur
+* `01_create_tables.sql`: DDL-skript som skapar alla tabeller och relationer.
+* `02_insert_data.sql`: DML-skript som fyller databasen med testdata.
+* `03_queries.sql`: SQL-frågor för analys (t.ex. lönekostnader, LIA-placeringar, betygssnitt).
+
+## Instruktioner för att köra koden
+För att testa databasen, kör filerna i din SQL-klient (t.ex. pgAdmin eller VS Code) i följande ordning:
+
+1.  Kör **Create Tables** för att bygga strukturen.
+2.  Kör **Insert Data** för att lägga in informationen (Viktigt att göra detta steg 2 p.g.a. Foreign Keys).
+3.  Kör **Queries** för att se resultatet av vyerna och analyserna.
